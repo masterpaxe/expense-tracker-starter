@@ -22,12 +22,12 @@ There is no test runner configured yet.
 
 - Vite 7 + React 19, plain JavaScript (JSX), ES modules. No router, state library, backend, or persistence.
 - `src/main.jsx` mounts `<App />` in `StrictMode`.
-- Almost all logic lives in a single component, `src/App.jsx`:
-  - Transactions are held in `useState`, seeded with hardcoded sample data, and lost on reload.
-  - Transaction shape: `{ id, description, amount, type: "income" | "expense", category, date: "YYYY-MM-DD" }`. New IDs come from `Date.now()`.
-  - `amount` is stored as a **string**, both in the seed data and from the form's number input. Totals are computed with `reduce((sum, t) => sum + t.amount, 0)`, so keep the numeric conversion in mind when you touch totals.
-  - Income, expense, and balance totals and the type/category filters are derived on every render rather than stored in state.
-  - The category list is a hardcoded array that both the add form and the filter dropdown use.
+- Components live flat in `src/`, one per file, each with a default export. Each one holds only the state it needs:
+  - `App.jsx` owns the `transactions` array, seeded with hardcoded sample data in `useState` and lost on reload. It also owns the hardcoded `categories` list, passes both down as props, and adds new transactions through `handleAdd`.
+  - `Summary.jsx` receives `transactions` and works out total income, total expenses, and balance on every render.
+  - `TransactionForm.jsx` owns the form field state, validates input, builds the new transaction (ID from `Date.now()`, date as `YYYY-MM-DD`), and passes it to the `onAdd` callback.
+  - `TransactionList.jsx` owns the type and category filter state and draws the filtered table from the `transactions` prop.
+- Transaction shape: `{ id, description, amount, type: "income" | "expense", category, date: "YYYY-MM-DD" }`. `amount` must be a **number**: the form converts its input with `parseFloat`, and the totals in `Summary` sum it with `reduce`. A string amount concatenates instead of adding.
 - Styling: global CSS in `src/App.css` and `src/index.css`. No CSS modules or framework.
 
 ## Lint notes

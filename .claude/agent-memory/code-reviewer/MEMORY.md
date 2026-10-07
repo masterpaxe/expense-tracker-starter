@@ -1,0 +1,2 @@
+- [Known issues](project_known_issues.md) — Freelance/salary sample-data bug and 565 kB Recharts bundle are known; don't re-report
+- [Review checklist](review_checklist.md) — recurring issues to check first (hardcoded colors vs tokens, duplicated defaults); UTC date bug fixed in 78df5e4

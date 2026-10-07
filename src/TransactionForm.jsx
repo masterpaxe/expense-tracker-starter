@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+// Today's date as YYYY-MM-DD in the user's own time zone (toISOString would give the UTC date).
+const todayLocal = () => {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+};
+
 function TransactionForm({ categories, onAdd }) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -16,7 +24,7 @@ function TransactionForm({ categories, onAdd }) {
       amount: parseFloat(amount),
       type,
       category,
-      date: new Date().toISOString().split('T')[0],
+      date: todayLocal(),
     });
 
     setDescription("");

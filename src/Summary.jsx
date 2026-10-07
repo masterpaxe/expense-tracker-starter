@@ -1,3 +1,5 @@
+import { formatMoney } from './format.js'
+
 function Summary({ transactions }) {
   const totalIncome = transactions
     .filter(t => t.type === "income")
@@ -8,22 +10,30 @@ function Summary({ transactions }) {
     .reduce((sum, t) => sum + t.amount, 0);
 
   const balance = totalIncome - totalExpenses;
+  const overspent = balance < 0;
+  const spentShare = totalIncome > 0 ? Math.min(totalExpenses / totalIncome, 1) : (totalExpenses > 0 ? 1 : 0);
 
   return (
-    <div className="summary">
-      <div className="summary-card">
-        <h3>Income</h3>
-        <p className="income-amount">${totalIncome}</p>
+    <section className="cash-flow" aria-label="Cash flow">
+      <p className="cash-flow-headline">
+        {overspent
+          ? `${formatMoney(-balance)} over this month`
+          : `${formatMoney(balance)} left this month`}
+      </p>
+
+      <div
+        className="cash-flow-bar"
+        role="img"
+        aria-label={`${formatMoney(totalExpenses)} spent of ${formatMoney(totalIncome)} that came in`}
+      >
+        <div className="cash-flow-spent" style={{ "--share": spentShare }} />
       </div>
-      <div className="summary-card">
-        <h3>Expenses</h3>
-        <p className="expense-amount">${totalExpenses}</p>
+
+      <div className="cash-flow-legend">
+        <span><span className="swatch swatch-spend" />{formatMoney(totalExpenses)} spent</span>
+        <span><span className="swatch swatch-income" />{formatMoney(Math.max(balance, 0))} left of {formatMoney(totalIncome)} that came in</span>
       </div>
-      <div className="summary-card">
-        <h3>Balance</h3>
-        <p className="balance-amount">${balance}</p>
-      </div>
-    </div>
+    </section>
   );
 }
 

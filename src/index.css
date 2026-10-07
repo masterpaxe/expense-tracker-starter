@@ -1,3 +1,18 @@
+:root {
+  --ink: #1e2b6f;
+  --ink-soft: #4d5785;
+  --ink-muted: #7a82a6;
+  --sky: #dce6ff;
+  --sky-deep: #c3d2fb;
+  --line: #e3e8f5;
+  --surface: #ffffff;
+  --income: #1f8a5b;
+  --spend: #b0306a;
+
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Instrument Sans", system-ui, sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +20,22 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--surface);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }

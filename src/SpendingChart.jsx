@@ -1,11 +1,9 @@
-import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { formatMoney } from './format.js'
 
-const BAR_COLOR = "#2a78d6";
-const TEXT_SECONDARY = "#52514e";
-const GRID_COLOR = "#e8e8e6";
+const BAR_COLOR = "#b0306a";
+const TEXT_SECONDARY = "#4d5785";
 const ROW_HEIGHT = 40;
-
-const formatMoney = (value) => `$${value.toLocaleString()}`;
 
 function SpendingChart({ transactions }) {
   const totals = {};
@@ -21,13 +19,12 @@ function SpendingChart({ transactions }) {
 
   return (
     <div className="spending-chart">
-      <h2>Spending by Category</h2>
+      <h2>Spent on</h2>
       {data.length === 0 ? (
         <p className="chart-empty">No expenses yet.</p>
       ) : (
         <ResponsiveContainer width="100%" height={data.length * ROW_HEIGHT + 20}>
           <BarChart data={data} layout="vertical" margin={{ top: 0, right: 64, bottom: 0, left: 0 }}>
-            <CartesianGrid horizontal={false} stroke={GRID_COLOR} />
             <XAxis type="number" hide />
             <YAxis
               type="category"
@@ -38,8 +35,9 @@ function SpendingChart({ transactions }) {
               tick={{ fill: TEXT_SECONDARY, fontSize: 13 }}
             />
             <Tooltip
-              cursor={{ fill: "rgba(0, 0, 0, 0.04)" }}
+              cursor={{ fill: "rgba(30, 43, 111, 0.05)" }}
               formatter={(value) => [formatMoney(value), "Spent"]}
+              contentStyle={{ border: "1px solid #c3d2fb", borderRadius: 8, fontFamily: "inherit" }}
             />
             <Bar dataKey="amount" fill={BAR_COLOR} barSize={20} radius={[0, 4, 4, 0]} isAnimationActive={false}>
               <LabelList dataKey="amount" position="right" formatter={formatMoney} fill={TEXT_SECONDARY} fontSize={13} />
